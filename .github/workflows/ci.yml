@@ -37,3 +37,6 @@ jobs:
 
       - name: Run Ruff
         run: uv run ruff check .
+        
+      - name: Run Mypy
+        run: uv run mypy src

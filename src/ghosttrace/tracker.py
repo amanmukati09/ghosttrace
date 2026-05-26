@@ -2,7 +2,7 @@ import pandas as pd
 
 from copy import deepcopy
 from datetime import datetime
-
+from typing import Any
 from .monitor import detect_anomalies
 from .reports import generate_report
 from .utils import dataframe_stats
@@ -11,12 +11,16 @@ from .utils import dataframe_stats
 class TrackedDataFrame:
     def __init__(self, df: pd.DataFrame):
         self._df = df
-        self._history = []
+        self._history: list[dict[str, Any]] = []
+        self._operations: list[str] = []
+
 
     def __getattr__(self, name):
         return getattr(self._df, name)
 
     def snapshot(self, operation: str):
+        self._operations.append(operation)
+
         snapshot = {
             "timestamp": datetime.now(),
             "operation": operation,
@@ -26,6 +30,7 @@ class TrackedDataFrame:
         }
 
         self._history.append(snapshot)
+        
 
     def trace_report(self):
         generate_report(self._history)

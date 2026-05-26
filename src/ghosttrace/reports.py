@@ -26,12 +26,12 @@ def generate_report(history):
     console.print(table)
 
     if len(history) >= 1:
+
         latest = history[-1]
 
-        console.print("\n[bold yellow]Statistics[/bold yellow]\n")
+        console.print("\n[bold green]Operation Timeline[/bold green]\n")
 
-        for column, stats in latest["stats"].items():
-            console.print(f"[cyan]{column}[/cyan]")
-
-            for key, value in stats.items():
-                console.print(f"  {key}: {value:.2f}")
+        for index, snapshot in enumerate(history, start=1):
+            console.print(
+                f"[cyan]{index}[/cyan]. {snapshot['operation']}"
+            )

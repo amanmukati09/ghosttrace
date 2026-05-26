@@ -38,5 +38,11 @@ pythonpath = [
 [dependency-groups]
 dev = [
     "build>=1.5.0",
+    "pandas-stubs>=3.0.0.260204",
     "twine>=6.2.0",
 ]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
