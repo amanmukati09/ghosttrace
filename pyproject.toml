@@ -1,13 +1,14 @@
 [project]
-name = "ghosttrace"
-version = "0.1.0"
+name = "traceframe"
+version = "0.1.1"
 description = "Track and detect suspicious dataframe transformations."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
+
 authors = [
-    { name = "Your Name" }
+    { name = "Aman Mukati" }
 ]
 
 dependencies = [
@@ -48,4 +49,8 @@ strict = false
 ignore_missing_imports = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ghosttrace"]
+packages = ["src/traceframe"]
+
+[project.urls]
+Homepage = "https://github.com/amanmukati09/ghosttrace"
+Repository = "https://github.com/amanmukati09/ghosttrace"

@@ -1,8 +1,10 @@
-# GhostTrace
+# TraceFrame
 
+![Python](https://img.shields.io/badge/python-3.11+-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 Track and detect suspicious pandas dataframe transformations.
 
-GhostTrace helps developers debug silent dataframe corruption,
+TraceFrame helps developers debug silent dataframe corruption,
 unexpected scaling issues, and transformation anomalies.
 
 ## Features
@@ -18,7 +20,7 @@ unexpected scaling issues, and transformation anomalies.
 ## Installation
 
 ```bash
-pip install ghosttrace
+pip install traceframe
 ```
 
 ---
@@ -28,7 +30,7 @@ pip install ghosttrace
 ```python
 import pandas as pd
 
-from ghosttrace import watch
+from traceframe import watch
 
 df = pd.DataFrame(
     {
@@ -48,10 +50,10 @@ df.trace_report()
 ## Example Output
 
 ```text
-[ghosttrace warning]
+[traceframe warning]
 - Large scale shift detected in 'salary'
 
-GhostTrace Report
+TraceFrame Report
 ```
 
 ---

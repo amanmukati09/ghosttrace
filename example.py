@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ghosttrace import watch
+from traceframe import watch
 
 
 df = pd.DataFrame(

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ghosttrace import watch
+from traceframe import watch
 
 
 def test_watch_returns_wrapper():
