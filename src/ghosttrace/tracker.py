@@ -1,5 +1,11 @@
 import pandas as pd
+
 from copy import deepcopy
+from datetime import datetime
+
+from .monitor import detect_anomalies
+from .reports import generate_report
+from .utils import dataframe_stats
 
 
 class TrackedDataFrame:
@@ -8,16 +14,18 @@ class TrackedDataFrame:
         self._history = []
 
     def snapshot(self, operation: str):
-        self._history.append(
-            {
-                "operation": operation,
-                "data": deepcopy(self._df),
-            }
-        )
+        snapshot = {
+            "timestamp": datetime.now(),
+            "operation": operation,
+            "shape": self._df.shape,
+            "stats": dataframe_stats(self._df),
+            "data": deepcopy(self._df),
+        }
+
+        self._history.append(snapshot)
 
     def trace_report(self):
-        print("[ghosttrace]")
-        print(f"Snapshots stored: {len(self._history)}")
+        generate_report(self._history)
 
     def __getitem__(self, key):
         return self._df[key]
@@ -25,6 +33,16 @@ class TrackedDataFrame:
     def __setitem__(self, key, value):
         self.snapshot(f"Before modifying column: {key}")
         self._df[key] = value
+
+        anomalies = detect_anomalies(
+            self._history[-1]["data"],
+            self._df,
+        )
+
+        if anomalies:
+            print("\n[ghosttrace warning]")
+            for anomaly in anomalies:
+                print(f"- {anomaly}")
 
     def __repr__(self):
         return repr(self._df)
