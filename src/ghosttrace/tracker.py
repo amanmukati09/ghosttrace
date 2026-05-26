@@ -13,6 +13,9 @@ class TrackedDataFrame:
         self._df = df
         self._history = []
 
+    def __getattr__(self, name):
+        return getattr(self._df, name)
+
     def snapshot(self, operation: str):
         snapshot = {
             "timestamp": datetime.now(),
@@ -46,3 +49,22 @@ class TrackedDataFrame:
 
     def __repr__(self):
         return repr(self._df)
+    
+    def drop(self, *args, **kwargs):
+        self.snapshot("Before drop operation")
+
+        result = self._df.drop(*args, **kwargs)
+
+        self._df = result
+
+        return self
+
+
+    def rename(self, *args, **kwargs):
+        self.snapshot("Before rename operation")
+
+        result = self._df.rename(*args, **kwargs)
+
+        self._df = result
+
+        return self

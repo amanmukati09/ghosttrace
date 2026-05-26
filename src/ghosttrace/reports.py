@@ -24,3 +24,14 @@ def generate_report(history):
         )
 
     console.print(table)
+
+    if len(history) >= 1:
+        latest = history[-1]
+
+        console.print("\n[bold yellow]Statistics[/bold yellow]\n")
+
+        for column, stats in latest["stats"].items():
+            console.print(f"[cyan]{column}[/cyan]")
+
+            for key, value in stats.items():
+                console.print(f"  {key}: {value:.2f}")

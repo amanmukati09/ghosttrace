@@ -18,4 +18,8 @@ df["age"] = df["age"] * 1000
 
 print(df)
 
+print(df.head())
+
+print(df.describe())
+
 df.trace_report()
