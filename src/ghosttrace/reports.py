@@ -4,9 +4,26 @@ from rich.table import Table
 
 console = Console()
 
+def print_stat_differences(history):
+    if len(history) < 1:
+        return
+
+    latest = history[-1]
+
+    console.print("\n[bold yellow]Column Statistics[/bold yellow]\n")
+
+    for column, stats in latest["stats"].items():
+        console.print(f"[cyan]{column}[/cyan]")
+
+        for key, value in stats.items():
+            console.print(f"  {key}: {value:.2f}")
 
 def generate_report(history):
-    console.print("\n[bold cyan]GhostTrace Report[/bold cyan]\n")
+    console.print(
+    "\n[bold cyan]"
+    "GhostTrace DataFrame Analysis"
+    "[/bold cyan]\n"
+)
 
     table = Table(show_header=True, header_style="bold magenta")
 
@@ -24,14 +41,4 @@ def generate_report(history):
         )
 
     console.print(table)
-
-    if len(history) >= 1:
-
-        latest = history[-1]
-
-        console.print("\n[bold green]Operation Timeline[/bold green]\n")
-
-        for index, snapshot in enumerate(history, start=1):
-            console.print(
-                f"[cyan]{index}[/cyan]. {snapshot['operation']}"
-            )
+    print_stat_differences(history)

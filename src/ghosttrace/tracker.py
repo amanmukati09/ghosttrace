@@ -6,6 +6,9 @@ from typing import Any
 from .monitor import detect_anomalies
 from .reports import generate_report
 from .utils import dataframe_stats
+from rich.console import Console
+
+console = Console()
 
 
 class TrackedDataFrame:
@@ -30,7 +33,11 @@ class TrackedDataFrame:
         }
 
         self._history.append(snapshot)
-        
+
+    def history(self):
+        return self._history
+    def operations(self):
+        return self._operations
 
     def trace_report(self):
         generate_report(self._history)
@@ -48,12 +55,12 @@ class TrackedDataFrame:
         )
 
         if anomalies:
-            print("\n[ghosttrace warning]")
-            for anomaly in anomalies:
-                print(f"- {anomaly}")
+            console.print("\n[bold red]GhostTrace Warning[/bold red]")
 
-    def __repr__(self):
-        return repr(self._df)
+        for anomaly in anomalies:
+            console.print(f"[yellow]- {anomaly}[/yellow]")
+            
+
     
     def drop(self, *args, **kwargs):
         self.snapshot("Before drop operation")
@@ -63,6 +70,15 @@ class TrackedDataFrame:
         self._df = result
 
         return self
+    
+    def __repr__(self):
+        return (
+            f"TrackedDataFrame("
+            f"snapshots={len(self._history)}, "
+            f"shape={self._df.shape}"
+            f")\n\n"
+            f"{repr(self._df)}"
+        )
 
 
     def rename(self, *args, **kwargs):

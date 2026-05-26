@@ -19,3 +19,12 @@ def test_column_modification():
     tracked["a"] = tracked["a"] * 10
 
     assert tracked["a"].iloc[0] == 10
+
+def test_history_tracking():
+    df = pd.DataFrame({"a": [1, 2]})
+
+    tracked = watch(df)
+
+    tracked["a"] = tracked["a"] * 2
+
+    assert len(tracked.history()) == 1
